@@ -63,14 +63,34 @@ public class Inventario {
 
         List<Producto> lista = new ArrayList<>(productos.values());
 
-        if (!productos.containsKey(ref)) {
-            System.out.println("Producto inválido.");
+        if (ref == null || ref.trim().isEmpty()) {
+            System.out.println("Error: Referencia no puede estar vacía");
             return;
         }
 
-        if (productos.get(ref).getCantidad() < cantidad) {
-            System.out.println("No hay suficientes unidades.");
+        if (cantidad <= 0) {
+            System.out.println("Error: Cantidad debe ser mayor a 0");
             return;
+        }
+
+        if (!productos.containsKey(ref)) {
+            System.out.println("Error: Producto no encontrado");
+            return;
+        }
+
+        Producto producto = productos.get(ref);
+
+        if (producto.getCantidad() < cantidad) {
+            System.out.println("Error: No hay suficientes unidades en el inventario");
+            return;
+        }
+
+        Cliente clienteActual = null;
+        if (cedula != null && !cedula.trim().isEmpty() && !"0".equals(cedula)) {
+            clienteActual = clientes.get(cedula);
+            if (clienteActual == null) {
+                System.out.println("Advertencia: Cliente no encontrado, se registrará como venta sin cliente");
+            }
         }
 
         productos.get(ref).reducirCantidad(cantidad);
@@ -90,8 +110,18 @@ public class Inventario {
     }
 
     public void aumentarCantidad(String ref, int cantidad) {
+        if (ref == null || ref.trim().isEmpty()) {
+            System.out.println("Error: Referencia no puede estar vacía");
+            return;
+        }
+
+        if (cantidad <= 0) {
+            System.out.println("Error: Cantidad debe ser mayor a 0");
+            return;
+        }
+
         if (!productos.containsKey(ref)) {
-            System.out.println("Producto inválido.");
+            System.out.println("Error: Producto no encontrado");
             return;
         }
 
@@ -114,7 +144,7 @@ public class Inventario {
             System.out.println("Cliente no encontrado.");
             return;
         }
-        
+
         Map<Producto, Integer> productosPedido = new HashMap<>();
         boolean pedidoValido = true;
 
@@ -136,8 +166,8 @@ public class Inventario {
             entry.getKey().reducirCantidad(entry.getValue());
         }
 
-        Pedido pedido = new Pedido(cliente, empleado, productosPedido, false); 
-        cliente.agregarCompra(new Venta(productosPedido, cliente)); 
+        Pedido pedido = new Pedido(cliente, empleado, productosPedido, false);
+        cliente.agregarCompra(new Venta(productosPedido, cliente));
         ventas.add(new Venta(productosPedido, cliente));
 
         System.out.println("Pedido registrado exitosamente:");

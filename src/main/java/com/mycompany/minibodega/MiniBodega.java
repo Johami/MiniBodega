@@ -190,6 +190,9 @@ public class MiniBodega {
                     String referenciaProductoEliminar = sc.next();
                     inventario.eliminarProducto(referenciaProductoEliminar);
                     break;
+                case 0:
+                    System.out.println("Gracias, vuelve pronto");
+                    break;
                 default:
                     System.out.println("Opción inválida.");
             }
