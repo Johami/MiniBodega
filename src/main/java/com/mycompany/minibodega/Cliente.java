@@ -17,6 +17,10 @@ public class Cliente extends Persona {
         return historialCompras;
     }
 
+    public void setHistorialCompras(List<Venta> historialCompras) {
+        this.historialCompras = historialCompras;
+    }
+
     public void agregarCompra(Venta venta) {
         historialCompras.add(venta);
     }
