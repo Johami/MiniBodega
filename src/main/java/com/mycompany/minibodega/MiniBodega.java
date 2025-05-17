@@ -47,7 +47,7 @@ public class MiniBodega {
                     String vender = sc.next();
                     System.out.print("Ingrese cantidad a vender: ");
                     int cantidadVenta = sc.nextInt();
-                    System.out.println("Clienes: ");
+                    System.out.println("Clientes: ");
                     System.out.println("");
                     inventario.mostrarClientes();
                     System.out.println("");
@@ -103,7 +103,7 @@ public class MiniBodega {
                     System.out.println("");
                     System.out.println("Ingrese la información acerca del gasto");
                     String descripcionGasto = sc.nextLine();
-                    System.out.println("Ingrese la cantidad requerida");
+                    System.out.println("Ingrese el valor requerido");
                     double gasto = sc.nextDouble();
                     inventario.registrarGasto(descripcionGasto, gasto);
 
