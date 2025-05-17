@@ -1,0 +1,65 @@
+package com.mycompany.minibodega;
+import java.util.*;
+
+public class Pedido {
+    private Cliente cliente;
+    private Empleado empleado;
+    private Map<Producto, Integer> productos;
+    private boolean aDomicilio;
+    private double total;
+
+    public Pedido(Cliente cliente, Empleado empleado, Map<Producto, Integer> productos, boolean aDomicilio) {
+        this.cliente = cliente;
+        this.empleado = empleado;
+        this.productos = productos;
+        this.aDomicilio = aDomicilio;
+        calcularTotal();
+    }
+
+    private void calcularTotal() {
+        total = 0;
+        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+            Producto producto = entry.getKey();
+            int cantidad = entry.getValue();
+            total += producto.getPrecio() * cantidad;
+        }
+
+        // Ejemplo de descuento: clientes con más de 5 compras reciben 10%
+        if (cliente.getHistorialCompras().size() >= 5) {
+            total *= 0.90;
+        }
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public Map<Producto, Integer> getProductos() {
+        return productos;
+    }
+
+    public boolean isADomicilio() {
+        return aDomicilio;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Pedido de " + cliente.getNombre());
+        sb.append("\nAtendido por: ").append(empleado.getNombre());
+        sb.append("\nProductos:");
+        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+            sb.append("\n - ").append(entry.getKey().getNombre()).append(" x").append(entry.getValue());
+        }
+        sb.append("\nTotal: $").append(total);
+        sb.append(aDomicilio ? "\n(Domicilio)" : "\n(En tienda)");
+        return sb.toString();
+    }
+}
