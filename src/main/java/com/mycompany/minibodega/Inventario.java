@@ -1,7 +1,7 @@
 package com.mycompany.minibodega;
 
 import java.util.*;
-import com.mycompany.minibodega.*;
+
 
 public class Inventario {
 
@@ -209,5 +209,38 @@ public class Inventario {
         System.out.println("Cliente Agregado con exito");
         System.out.println(clientes.get(codigo));
     }
+    
+    public void eliminarCliente(String codigo) {
+        if (clientes.containsKey(codigo)) {
+            clientes.remove(codigo);
+            System.out.println("Cliente eliminado con éxito.");
+        } else {
+            System.out.println("Cliente no encontrado.");
+        }
+    }
 
+    public void eliminarEmpleado(String codigo) {
+        if (empleados.containsKey(codigo)) {
+            empleados.remove(codigo);
+            System.out.println("Empleado eliminado con éxito.");
+        } else {
+            System.out.println("Empleado no encontrado.");
+        }
+    }
+
+    public void eliminarProducto(String referencia) {
+        if (productos.containsKey(referencia)) {
+            productos.remove(referencia);
+            System.out.println("Producto eliminado con éxito.");
+        } else {
+            System.out.println("Producto no encontrado.");
+        }
+    }
+    public void agregarProducto(String referencia, String nombre, double precio, int cantidad) {
+        productos.put(referencia, new Producto(nombre, precio, cantidad));
+        System.out.println("Producto agregado con éxito:");
+        System.out.println(productos.get(referencia));
+    }
+
+    
 }
