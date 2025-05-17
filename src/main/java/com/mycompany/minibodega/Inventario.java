@@ -2,7 +2,6 @@ package com.mycompany.minibodega;
 
 import java.util.*;
 
-
 public class Inventario {
 
     private HashMap<String, Producto> productos;
@@ -115,35 +114,30 @@ public class Inventario {
             System.out.println("Cliente no encontrado.");
             return;
         }
-
+        
         Map<Producto, Integer> productosPedido = new HashMap<>();
+        boolean pedidoValido = true;
 
         for (Map.Entry<String, Integer> entry : referenciasYCantidades.entrySet()) {
-            String ref = entry.getKey();
-            int cantidad = entry.getValue();
-
-            Producto producto = productos.get(ref);
-            if (producto == null) {
-                System.out.println("Producto con referencia " + ref + " no encontrado.");
-                continue;
+            Producto producto = productos.get(entry.getKey());
+            if (producto == null || producto.getCantidad() < entry.getValue()) {
+                pedidoValido = false;
+                break;
             }
-
-            if (producto.getCantidad() < cantidad) {
-                System.out.println("No hay suficiente cantidad de " + producto.getNombre());
-                continue;
-            }
-
-            productosPedido.put(producto, cantidad);
-            producto.reducirCantidad(cantidad); ///////////////////////////////////////////
+            productosPedido.put(producto, entry.getValue());
         }
 
-        if (productosPedido.isEmpty()) {
-            System.out.println("No se pudo registrar el pedido. Ningún producto válido.");
+        if (!pedidoValido) {
+            System.out.println("Pedido no válido. Revise cantidades y referencias.");
             return;
         }
 
-        Pedido pedido = new Pedido(cliente, empleado, productosPedido, false); // false: no es a domicilio
-        cliente.agregarCompra(new Venta(productosPedido, cliente)); // Agrega al historial
+        for (Map.Entry<Producto, Integer> entry : productosPedido.entrySet()) {
+            entry.getKey().reducirCantidad(entry.getValue());
+        }
+
+        Pedido pedido = new Pedido(cliente, empleado, productosPedido, false); 
+        cliente.agregarCompra(new Venta(productosPedido, cliente)); 
         ventas.add(new Venta(productosPedido, cliente));
 
         System.out.println("Pedido registrado exitosamente:");
@@ -209,7 +203,7 @@ public class Inventario {
         System.out.println("Cliente Agregado con exito");
         System.out.println(clientes.get(codigo));
     }
-    
+
     public void eliminarCliente(String codigo) {
         if (clientes.containsKey(codigo)) {
             clientes.remove(codigo);
@@ -236,11 +230,11 @@ public class Inventario {
             System.out.println("Producto no encontrado.");
         }
     }
+
     public void agregarProducto(String referencia, String nombre, double precio, int cantidad) {
         productos.put(referencia, new Producto(nombre, precio, cantidad));
         System.out.println("Producto agregado con éxito:");
         System.out.println(productos.get(referencia));
     }
 
-    
 }
