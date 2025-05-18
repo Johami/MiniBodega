@@ -166,7 +166,7 @@ public class Inventario {
             entry.getKey().reducirCantidad(entry.getValue());
         }
 
-        Pedido pedido = new Pedido(cliente, empleado, productosPedido, false);
+        Pedido pedido = new Pedido(cliente, empleado, productosPedido);
         cliente.agregarCompra(new Venta(productosPedido, cliente));
         ventas.add(new Venta(productosPedido, cliente));
 

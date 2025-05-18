@@ -5,14 +5,12 @@ public class Pedido {
     private Cliente cliente;
     private Empleado empleado;
     private Map<Producto, Integer> productos;
-    private boolean aDomicilio;
     private double total;
 
-    public Pedido(Cliente cliente, Empleado empleado, Map<Producto, Integer> productos, boolean aDomicilio) {
+    public Pedido(Cliente cliente, Empleado empleado, Map<Producto, Integer> productos) {
         this.cliente = cliente;
         this.empleado = empleado;
         this.productos = productos;
-        this.aDomicilio = aDomicilio;
         calcularTotal();
     }
 
@@ -42,9 +40,6 @@ public class Pedido {
         return productos;
     }
 
-    public boolean isADomicilio() {
-        return aDomicilio;
-    }
 
     public double getTotal() {
         return total;
@@ -59,7 +54,6 @@ public class Pedido {
             sb.append("\n - ").append(entry.getKey().getNombre()).append(" x").append(entry.getValue());
         }
         sb.append("\nTotal: $").append(total);
-        sb.append(aDomicilio ? "\n(Domicilio)" : "\n(En tienda)");
         return sb.toString();
     }
 }
