@@ -24,9 +24,9 @@ public class Pedido {
             total += producto.getPrecio() * cantidad;
         }
 
-        // Ejemplo de descuento: clientes con más de 5 compras reciben 10%
+        // Descuento para clientes con más de 5 compras reciben 50%
         if (cliente.getHistorialCompras().size() >= 5) {
-            total *= 0.90;
+            total *= 0.50;
         }
     }
 
